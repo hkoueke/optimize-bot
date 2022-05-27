@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="About" xml:space="preserve">
+    <value>{0}{1}{1}Assistant automatisé programmé en C# .Net 5. Les auteurs déclinent toute responsabilité résultant de l'usage de cet automate et ne donnent aucune garantie quant à la disponibilité du service et des fonctionnalités. Pour écrire aux développeurs: {2}.</value>
+    <comment>Emoji,  Desc, Newline, TelegramLink</comment>
+  </data>
+  <data name="BackButtonText" xml:space="preserve">
+    <value>Retour vers {0}</value>
+  </data>
+  <data name="ErrorNotDownloaded" xml:space="preserve">
+    <value>{0} Echec de la recherche{1}{1}Nous n'avons pas trouvé le document que vous recherchiez. Assurez-vous d'indiquer le bon prestataire, ainsi que le bon numéro de transaction, puis réessayez.</value>
+    <comment>Emoji, Newline</comment>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>{0} Menu principal</value>
+    <comment>Emoji Home</comment>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Non</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Souhaitez-vous réessayer?</value>
+  </data>
+  <data name="RetryAmount" xml:space="preserve">
+    <value>{0} Nouveau montant</value>
+    <comment>Emoji Amount</comment>
+  </data>
+  <data name="RetryProvider" xml:space="preserve">
+    <value>{0} Nouveau fournisseur</value>
+    <comment>Emoji Provider</comment>
+  </data>
+  <data name="ServiceCashIn" xml:space="preserve">
+    <value>dépôt</value>
+  </data>
+  <data name="ServiceCashInOutEnterAmount" xml:space="preserve">
+    <value>&lt;b&gt;{0}&lt;/b&gt;{1}{1}Veuillez saisir le montant pour lequel vous souhaitez faire un {2} d'espèces:</value>
+  </data>
+  <data name="ServiceCashInOutResult" xml:space="preserve">
+    <value>Un {0} de {1} FCFA via {2} vous coûtera {3} FCFA en frais de transaction.</value>
+  </data>
+  <data name="ServiceCashOut" xml:space="preserve">
+    <value>retrait</value>
+  </data>
+  <data name="ServiceReceiptEnterTransactionId" xml:space="preserve">
+    <value>&lt;b&gt;{0}&lt;/b&gt;{1}{1}Veuillez saisir &lt;b&gt;l'identifiant de la transaction&lt;/b&gt; telle qu'il apparaît dans le message reçu de {2} :</value>
+  </data>
+  <data name="ServiceReceiptPleaseWait" xml:space="preserve">
+    <value>&lt;b&gt;{0} Recherche en cours...&lt;/b&gt;{1}{1}Nous cherchons des informations sur votre reçu. Vous recevrez une notification une fois la recherche achevée.</value>
+    <comment>Emoji, NewLine</comment>
+  </data>
+  <data name="ServiceSelectProvider" xml:space="preserve">
+    <value>&lt;b&gt;{0}&lt;/b&gt;{1}{1}Nous avons {2} fournisseurs proposant ce service. Veuillez en sélectionner un, au choix, ou saisir /start pour annuler.</value>
+    <comment>Service Desc, NewLine, Count</comment>
+  </data>
+  <data name="ServiceSingleProvider" xml:space="preserve">
+    <value>&lt;b&gt;{0}&lt;/b&gt;{1}{1}Le fournisseur &lt;b&gt;{2}&lt;/b&gt; est le seul disponible pour le moment. Continuer?</value>
+    <comment>Service desc, Newline x 2, Provider name</comment>
+  </data>
+  <data name="WarningAmountOverflow" xml:space="preserve">
+    <value>{0} Attention!{1}{1}Le montant saisi [{2}] est incorrect. Veuillez saisir un montant compris entre {3} FCFA et {4} FCFA.</value>
+    <comment>Emoji, Newline, Amount, Min, Max</comment>
+  </data>
+  <data name="WarningInvalidAmountFormat" xml:space="preserve">
+    <value>{0} Attention!{1}{1}Le montant saisi n'est pas au format requis. Assurez-vous de ne saisir que des chiffres.</value>
+    <comment>Emoji, Newline</comment>
+  </data>
+  <data name="WarningInvalidTrxId" xml:space="preserve">
+    <value>{0} Attention!{1}{1}Le numéro de transaction est incomplet. Il devrait comporter {2} caractères. Bien vouloir réessayer.</value>
+  </data>
+  <data name="WelcomeUserSelectService" xml:space="preserve">
+    <value>&lt;b&gt;{0}&lt;/b&gt;{1}{1}Bienvenue, {2}. Veuillez sélectionner un service, au choix, pour commencer.</value>
+    <comment>Emoji, Service Desc, NewLine, FirstName</comment>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Oui</value>
+  </data>
+</root>
