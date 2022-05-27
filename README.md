@@ -28,7 +28,7 @@ You can also edit the `public const string DEV_LINK_TELEGRAM = @"https://t.me/YO
 
 Last but not the least, the app can also notify designated admins when a fatal error occurs in the app lifecycle, provided the following requirements are met:
 - Edit `public static readonly string[] ADMINS = { "TELEGRAM_ID_01","TELEGRAM_ID_02" };` and replace `TELEGRAM_ID_01` and `TELEGRAM_ID_02` (We had two admins at the time of readction of the README) by the actual telegram Ids of your admins. You can add as many IDs as you wish, provided each value is separated by a comma.
-- As an admin, send a `/start` command to the bot. This will trigger the admin registration in the datatabase. Only then, whenever an issue occurs with the app, the database will be queried for admins and all of them will receive message notifications about the incident.
+- As an admin, send a `/start` command to the bot. This will trigger the admin registration in the datatabase. Only then, whenever an issue occurs with the app, the database will be queried for admins and all of them will receive message notifications about the incident. You can use search term *OptimizBot* in Telegram client app, or use the [Optimize-Bot](https://t.me/optimizbot) link to invoke the bot directly.
 
 ### The database : How to generate one?
 Before running the app, you need to generate a database. Currently, sqlite and Entity Framework are used for this purpose. We've already prepared the code for the database migrations. Please refer to the `OptimizeBotContext.cs` file in the Context folder for more information. Follow the steps below to  create the database:
