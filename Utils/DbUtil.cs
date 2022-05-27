@@ -12,7 +12,7 @@ namespace OptimizeBot.Utils
 
         public static async Task<T> FindOrCreateAsync<T>(Func<T, bool> predicate, T toCreate = default) where T : class
         {
-            //Get user from database if exists, and return if it exists
+            //Get user from database, and return if it exists
             T item = await FindAsync(predicate);
 
             if (item != null)
