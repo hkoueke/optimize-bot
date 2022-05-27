@@ -2,8 +2,11 @@
 A Telegram written in C# .NET 5, to provide useful services to Mobile money clients in Cameroon.
 
 ### PREREQUISITES
-This program was written using Visual studio 2019 on a Windows 10 station. Thus you can directly import this project in your environment provided you have the following dependencies installed:
+This program was written using Visual studio 2019 on a Windows 10 station. Thus you can directly import this project in your environment provided you have both software installed, along with the following dependencies:
 - .NET Core 5
+
+It is possible to import the project in Visual Studio Code. How to do so is not covered by this readme.
+
 You will also need the following packages from Nuget. You can either use the nuget package manager, or the Package console. Both can be found under Tools > Nuget package Manager.
 - log4Net v2.0.14
 - Microsoft.EntityFrameworkCore.Design v5.0.5
