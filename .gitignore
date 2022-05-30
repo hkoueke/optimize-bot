@@ -8,5 +8,8 @@
 
 # Dependency directories (remove the comment below to include it)
 bin/
+!obj/Debug/net5.0/OptimizeBot.assets.cache
+!obj/Release/net5.0/OptimizeBot.assets.cache
+obj/
 migrations/
 .vs/
