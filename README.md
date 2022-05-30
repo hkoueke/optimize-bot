@@ -65,6 +65,10 @@ To learn more about the different components of the app, please refer to:
 - `Handlers.cs` int the Helpers folder
 - `About.cs`, `CashIn.cs`, `CashOut.cs`, `Start.cs`, `Receipt.cs`, `Conversation.cs` in the Processes Folder.
 
+### TODO
+- Implement rate limiting to prevent bot flood
+- Refactor Data Access Objects for better extensibility
+
 
 
 
