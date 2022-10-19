@@ -10,4 +10,5 @@
 bin/
 migrations/
 .vs/
-obj/debug
+obj/Debug
+obj/Release
