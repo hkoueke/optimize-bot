@@ -1,110 +1,108 @@
-﻿using OptimizeBot.Cache;
+﻿using OptimizeBot.Contracts.Caching;
+using OptimizeBot.Contracts.Messaging;
+using OptimizeBot.Contracts.Persistance;
+using OptimizeBot.Extensions;
 using OptimizeBot.Model;
-using OptimizeBot.Utils;
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
-using Telegram.Bot;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
-using TelegramUser = Telegram.Bot.Types.User;
 using User = OptimizeBot.Model.User;
 
 namespace OptimizeBot.Processes
 {
     public abstract class Conversation
     {
-        private readonly ITelegramBotClient bot;
-        protected readonly Update update;
-        protected readonly Service service;
-        protected readonly TelegramUser sender;
-        protected string serviceDesc;
-        protected readonly User user;
+        private readonly ICacheManager _cacheManager;
+        private readonly IRepositoryManager _repositoryManager;
+        private readonly IMessagingService _messagingService;
 
-        protected Conversation(ITelegramBotClient bot, Update update, Service service)
+        protected readonly Update Update;
+        protected readonly Service Service;
+        //protected User User;
+        protected string localizedServiceDescription;
+
+        protected Conversation(ICacheManager cacheManager,
+                               IRepositoryManager repositoryManager,
+                               IMessagingService messagingService,
+                               Update update,
+                               Service service)
         {
-            (this.bot, this.update, this.service) = (bot, update, service);
-
-            //Initialize TelegramUser field
-            sender = UpdateUtil.GetSenderFromUpdate(update);
-            user = CacheMgr.GetEntry<User>(sender.Id);
+            Update = update;
+            Service = service;
+            _cacheManager = cacheManager;
+            _repositoryManager = repositoryManager;
+            _messagingService = messagingService;
 
             //Initialize service description field
-            serviceDesc = LangUtil.IsEnglish() ? service.EnDesc : service.FrDesc;
+            localizedServiceDescription = CultureInfo.CurrentCulture.IsEnglish() ? service.EnDesc : service.FrDesc;
         }
 
-        public virtual async Task Process(string data)
+        public virtual async Task ProcessAsync(string data)
         {
-            //-> Restrict service usage to admins
-            if (service.AdminOnly && !user.IsAdmin)
-                throw new InvalidOperationException($"Command <{ service.Command }> is restricted to admins");
+            User user = await _cacheManager.UserCache.GetOrCacheUserAsync(Update.GetUser());
 
-            if (user.Session.Context == null || !user.Session.Context.Equals(service.Command))
+            //-> Restrict service usage to admins
+            if (Service.AdminOnly && !user.IsAdmin)
             {
-                user.Session.Context = service.Command;
+                Program.Log.Info($"Command <{Service.Command}> is restricted to admins");
+                return;
+            }
+
+            if (user.Session.Context is null || !user.Session.Context.Equals(Service.Command))
+            {
+                user.Session.Context = Service.Command;
                 user.Session.ContextData = default;
                 user.Session.State = default;
                 await UpdateSessionAsync(user);
             }
         }
 
-        protected async Task SendEditMessageTextAsync(string message, InlineKeyboardMarkup replyMarkup = default, ParseMode? parseMode = ParseMode.Html)
+        protected async Task<Message> SendEditMessageTextAsync(string message, InlineKeyboardMarkup? replyMarkup = default)
         {
-            if (message == null)
-                throw new ArgumentNullException(nameof(message));
+            if (message == null) throw new ArgumentNullException(nameof(message));
 
-            // Get the last message sent by the bot and by the user when replying to a message
-            var lastMessageId = CacheMgr.GetEntry(sender.Id);
-            var sentId = UpdateUtil.GetMessageIdFromUpdate(update);
+            // Get the last message sent by the bot and by the User when replying to a message
+            //var lastMessageId = await _cacheManager.IDCache.GetOrCreateAsync(update.GetUser().Id);
+            int lastMessageId = _cacheManager.IDCache.GetId(Update.GetUser().Id);
+            int receivedId = Update.GetUpdateTypeMessageId();
 
             // If there is no id in cache consider the app was restarted or cache entry dropped.
-            // If the cached id is less than the id sent by user reply there is a 'separator' message
+            // If the cached id is less than the id sent by User reply there is a 'separator' message
             // In both cases, send a regular message and save the message id to cache
-            if (!lastMessageId.HasValue || lastMessageId.Value < sentId)
-            {
-                await SendTextMessageAsync(message, replyMarkup, parseMode)
-                    .ContinueWith(async t => CacheMgr.SetOrRemoveEntry(sender.Id, (await t).MessageId), TaskContinuationOptions.OnlyOnRanToCompletion);
-                return;
-            }
+            if (lastMessageId == default || lastMessageId < receivedId)
+                return await _messagingService.SendTextMessageAsync(Update.GetUser().Id, message, replyMarkup);
 
-            // Send an Edit message to user without caching MessageId since it does not change between two MessageEdit updates
-            await bot.EditMessageTextAsync(sender.Id, lastMessageId.Value, message, parseMode, replyMarkup: replyMarkup);
+            // Send an Edit message to User without caching MessageId since it does not change between two MessageEdit updates
+            return await _messagingService.SendEditMessageTextAsync(Update.GetUser().Id, lastMessageId, message, replyMarkup);
         }
 
-        private async Task<Message> SendTextMessageAsync(string message, IReplyMarkup replyMarkup = default, ParseMode? parseMode = ParseMode.Html)
+        protected async Task SendDocumentAsync(InputOnlineFile file, IReplyMarkup? replyMarkup = default)
+            => await _messagingService.SendDocumentAsync(Update.GetUser().Id, file, replyMarkup);
+
+        protected async Task DeleteMessageAsync(long chatId, int messageId)
+            => await _messagingService.DeleteMessageAsync(chatId, messageId);
+
+        protected async Task<T> GetSessionStateAsync<T>() where T : struct
         {
-            await bot.SendChatActionAsync(chatId: sender.Id, chatAction: ChatAction.Typing);
-            return await bot.SendTextMessageAsync(sender.Id, message, parseMode, replyMarkup: replyMarkup ?? new ReplyKeyboardRemove());
+            User user = await _cacheManager.UserCache.GetOrCacheUserAsync(Update.GetUser());
+            return Enum.Parse<T>(user.Session.State ?? "Idle");
         }
 
-        protected async Task SendDocumentAsync(InputOnlineFile file, IReplyMarkup replyMarkup = default)
+        protected async Task UpdateSessionStateAsync<T>(T state) where T : struct, Enum
         {
-            //Show ChatAction.UploadDocument to client device
-            await bot.SendChatActionAsync(chatId: sender.Id, chatAction: ChatAction.UploadDocument);
-
-            //Send the downloaded file to user and delete lastMessageId from Cache
-            //This will force the app to send a new message under the document
-            await bot
-                .SendDocumentAsync(sender.Id, file, replyMarkup: replyMarkup ?? new ReplyKeyboardRemove())
-                .ContinueWith(_ => CacheMgr.SetOrRemoveEntry(sender.Id), TaskContinuationOptions.OnlyOnRanToCompletion);
-        }
-
-        protected async Task DeleteMessageAsync(long chatId, int messageId) => await bot.DeleteMessageAsync(chatId, messageId);
-
-        protected TEnum GetSessionState<TEnum>() where TEnum : struct
-            => string.IsNullOrEmpty(user.Session.State) ? Enum.Parse<TEnum>("Idle") : Enum.Parse<TEnum>(user.Session.State);
-
-        protected async Task UpdateSessionStateAsync<TEnum>(TEnum state) where TEnum : struct, Enum
-        {
-            user.Session.State = Enum.GetName(state);
+            User user = await _cacheManager.UserCache.GetOrCacheUserAsync(Update.GetUser());
+            user.Session.State = Enum.GetName(state) ?? "Idle";
             await UpdateSessionAsync(user);
         }
 
-        protected static async Task UpdateSessionAsync(User userToUpdate)
+        protected async Task UpdateSessionAsync(User user)
         {
-            await DbUtil.UpdateOrInsertAsync(userToUpdate)
-                        .ContinueWith(async t => CacheMgr.RemoveEntry((await t).TelegramId), TaskContinuationOptions.OnlyOnRanToCompletion);
+            _repositoryManager.UserRepository.UpdateUser(user);
+            await _repositoryManager.SaveAsync()
+                                    .ContinueWith(_ => _cacheManager.UserCache.RemoveUser(user.TelegramId), TaskContinuationOptions.OnlyOnRanToCompletion);
         }
     }
 }

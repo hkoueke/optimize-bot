@@ -10,8 +10,8 @@ namespace OptimizeBot.Utils
         public static string SerializeToCashContext(in Catalog catalog)
         {
             var lines = JsonConvert.DeserializeObject<IList<Line>>(catalog.Pricing.Lines);
-            var minAmt = lines.Min(l => l.From);
-            var maxAmt = lines.Max(l => l.To);
+            double minAmt = lines.Min(l => l.From);
+            double maxAmt = lines.Max(l => l.To);
             var pId = catalog.ProviderId;
             return JsonConvert.SerializeObject(new CashContext(pId, minAmt, maxAmt));
         }

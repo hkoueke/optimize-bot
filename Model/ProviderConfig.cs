@@ -7,21 +7,13 @@ namespace OptimizeBot.Model
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
         public int ProviderId { get; set; }
-
-        public Provider Provider { get; set; }
-
-#nullable enable
+        public Provider Provider { get; set; } = default!;
         public string? ReceiptApiUrl { get; set; }
-
         public string? ReceiptApiHost { get; init; }
-
         public string? ReceiptApiReferer { get; init; }
 
-#nullable disable
-        public string BaseServiceUssd { get; set; }
-
+        public string BaseServiceUssd { get; set; } = default!;
         public int? TrxIdLength { get; init; } 
     }
 }

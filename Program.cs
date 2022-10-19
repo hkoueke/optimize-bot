@@ -1,32 +1,38 @@
-﻿using System;
+﻿using log4net;
+using log4net.Config;
+using OptimizeBot.Context;
+using OptimizeBot.Contracts.Persistance;
+using OptimizeBot.Helpers;
+using OptimizeBot.Repository.Persistence;
+using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot;
-using System.Threading;
 using Telegram.Bot.Extensions.Polling;
-using OptimizeBot.Helpers;
-using log4net;
-using log4net.Config;
-using Telegram.Bot.Types.Enums;
-using OptimizeBot.Utils;
-using OptimizeBot.Model;
 using Telegram.Bot.Types;
-using System.Globalization;
+using Telegram.Bot.Types.Enums;
 
 namespace OptimizeBot
 {
     class Program
     {
-        private static TelegramBotClient bot;
-        public static readonly ILog log = LogManager.GetLogger(typeof(Program));
+        private static readonly TelegramBotClient _bot;
+        public static readonly ILog Log;
+        private static readonly IRepositoryManager _repositoryManager;
 
-        public static async Task Main()
+        static Program()
+        {
+            _bot = new(Constants.BOT_TOKEN);
+            _repositoryManager = new RepositoryManager(new OptimizeBotContext());
+            Log = LogManager.GetLogger(typeof(Program));
+        }
+
+        static async Task Main()
         {
             AppDomain.CurrentDomain.UnhandledException += UnHandledExceptionTrap;
-            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.GetCultureInfo("en-US");
             XmlConfigurator.Configure();
 
-            bot = new(Constants.BOT_TOKEN);
             ReceiverOptions receiverOptions = new()
             {
                 AllowedUpdates = new[]
@@ -37,16 +43,16 @@ namespace OptimizeBot
             };
 
             var cts = new CancellationTokenSource();
-
-            bot.StartReceiving(Handlers.HandleUpdateAsync,
+            _bot.StartReceiving(Handlers.HandleUpdateAsync,
                                Handlers.HandleErrorAsync,
                                receiverOptions,
                                cancellationToken: cts.Token);
             try
             {
-                var me = await bot.GetMeAsync();
-                Console.Title = me.Username;
-                log.Info($"Started listening for messages from @{me.Username}");
+                User? me = await _bot.GetMeAsync();
+                Console.Title = me?.Username ?? "Bot name is not available";
+
+                Log.Info($"Started listening for messages from @{me?.Username}");
                 await SetBotCommandsAsync();
 
                 // Send cancellation request to stop bot
@@ -55,7 +61,7 @@ namespace OptimizeBot
             }
             catch (Exception e)
             {
-                log.Error(e.Message, e);
+                Log.Error(e.Message, e);
                 cts.Cancel();
                 Environment.Exit(1);
             }
@@ -63,20 +69,21 @@ namespace OptimizeBot
 
         private static async Task SetBotCommandsAsync()
         {
-            var commands = await DbUtil.FindAll<Service, int>(predicate: s => !s.AdminOnly,
-                                                              orderBy: o => o.ServiceId);
+            var commands = await _repositoryManager.ServiceRepository.GetServicesByCondition(condition: s => !s.AdminOnly, orderBy: s => s.ServiceId);
+
             if (commands.Any())
             {
                 var fr = commands.ConvertAll(s => new BotCommand { Command = s.Command, Description = s.FrDesc });
                 var en = commands.ConvertAll(s => new BotCommand { Command = s.Command, Description = s.EnDesc });
 
-                await bot.SetMyCommandsAsync(commands: fr, languageCode: "fr");
-                await bot.SetMyCommandsAsync(commands: en, languageCode: "en");
+                await _bot!.SetMyCommandsAsync(commands: fr, languageCode: "fr");
+                await _bot!.SetMyCommandsAsync(commands: en, languageCode: "en");
             }
         }
+
         private static void UnHandledExceptionTrap(object sender, UnhandledExceptionEventArgs e)
         {
-            log.Fatal(e.ExceptionObject.ToString());
+            Log.Fatal(e.ExceptionObject.ToString());
             Environment.Exit(1);
         }
     }

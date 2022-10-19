@@ -11,15 +11,16 @@ namespace OptimizeBot.Model
         public int ProviderId { get; set; }
 
         [Required, MinLength(2), MaxLength(20)]
-        public string Name { get; init; }
+        public string Name { get; init; } = default!;
 
         [Required, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime CreationDate { get; }
-        public ProviderConfig Config { get; set; }
-#nullable enable
+
+        public ProviderConfig Config { get; set; } = default!;
+
         public string? UtilityProviders { get; set; }
-#nullable disable
+
         //Navigation
-        public IList<Catalog> Catalogs { get; set; }
+        public IList<Catalog> Catalogs { get; set; } = new List<Catalog>();
     }
 }

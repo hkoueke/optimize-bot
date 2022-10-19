@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="About" xml:space="preserve">
-    <value>{0}{1}{1}Automated assistant programmed in C# .Net 5 and released under GNU General Public License v3.0 (https://www.gnu.org/licenses/gpl-3.0.html). To write to the developers: {2}.</value>
+    <value>{0}{1}{1}Automated assistant programmed in C# .Net 5. The authors decline any responsibility resulting from the use of this automaton and give no guarantee as to the availability of the service and the functionalities. To write to the developers: {2}.</value>
     <comment>Emoji,  Desc, Newline, TelegramLink</comment>
   </data>
   <data name="BackButtonText" xml:space="preserve">
@@ -174,15 +174,15 @@
     <comment>Service desc, Newline x 2, Provider name</comment>
   </data>
   <data name="WarningAmountOverflow" xml:space="preserve">
-    <value>{0} Beware!{1}{1}The entered amount [{2}] is incorrect. Please enter an amount between CFAF {3} and CFAF{4}.</value>
+    <value>{0} Warning!{1}{1}The entered amount [{2}] is incorrect. Please enter an amount between CFAF {3} and CFAF{4}.</value>
     <comment>Emoji, Newline, Amount, Min, Max</comment>
   </data>
   <data name="WarningInvalidAmountFormat" xml:space="preserve">
-    <value>{0} Beware!{1}{1}The amount entered is not in the required format. Make sure you only enter numbers.</value>
+    <value>{0} Warning!{1}{1}The amount entered is not in the required format. Make sure you only enter numbers.</value>
     <comment>Emoji, Newline</comment>
   </data>
   <data name="WarningInvalidTrxId" xml:space="preserve">
-    <value>{0} Beware!{1}{1}The transaction number is incomplete. It should be {2} characters long. Please try again.</value>
+    <value>{0} Warning!{1}{1}The transaction number is incomplete. It should be {2} characters long. Please try again.</value>
   </data>
   <data name="WelcomeUserSelectService" xml:space="preserve">
     <value>&lt;b&gt;{0}&lt;/b&gt;{1}{1}Welcome, {2}. Please select a service of your choice.</value>

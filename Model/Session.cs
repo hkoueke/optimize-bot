@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OptimizeBot.Model
 {
-#nullable enable
     public class Session
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -14,8 +13,8 @@ namespace OptimizeBot.Model
 
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime CreationDate { get; }
-        public string? Context { get; set; } = default;
-        public string? State { get; set; } = default;
-        public string? ContextData { get; set; } = default;
+        public string? Context { get; set; }
+        public string? State { get; set; }
+        public string? ContextData { get; set; }
     }
 }

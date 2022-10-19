@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="About" xml:space="preserve">
-    <value>{0}{1}{1}Assistant automatisé programmé en C# .Net 5 et publié sous licence GNU General Public License v3.0 (https://www.gnu.org/licenses/gpl-3.0.html). Pour écrire aux développeurs: {2}.</value>
+    <value>{0}{1}{1}Assistant automatisé programmé en C# .Net 5. Les auteurs déclinent toute responsabilité résultant de l'usage de cet automate et ne donnent aucune garantie quant à la disponibilité du service et des fonctionnalités. Pour écrire aux développeurs: {2}.</value>
     <comment>Emoji,  Desc, Newline, TelegramLink</comment>
   </data>
   <data name="BackButtonText" xml:space="preserve">

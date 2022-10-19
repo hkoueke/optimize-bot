@@ -5,6 +5,8 @@
     <TargetFramework>net5.0</TargetFramework>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <AnalysisLevel>5.0</AnalysisLevel>
+    <UserSecretsId>58cf03df-7347-453c-880d-7d603f1789cf</UserSecretsId>
+	<Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,7 +24,6 @@
 
   <ItemGroup>
     <Folder Include="migrations\" />
-    <Folder Include="Context\" />
   </ItemGroup>
 
   <ItemGroup>

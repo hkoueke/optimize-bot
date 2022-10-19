@@ -10,18 +10,18 @@ namespace OptimizeBot.Model
         public int PricingId { get; set; }
 
         [Required]
-        public string Name { get; init; }
+        public string Name { get; init; } = default!;
 
         [Required]
-        public string Lines { get; init; }
+        public string Lines { get; init; } = default!;
 
         [Required]
-        public string Url { get; init; }
+        public string Url { get; init; } = default!;
 
         [Required, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime CreationDate { get; }
 
         //Navigation
-        public Catalog Catalogs { get; set; }
+        public Catalog Catalogs { get; set; } = default!;
     }
 }

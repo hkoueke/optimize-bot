@@ -19,10 +19,10 @@ namespace OptimizeBot.Model
         public int UtilityCount { get; set; }
 
         [JsonProperty(Required = Required.AllowNull)]
-        public string UtilityProviderId { get; set; } = default;
+        public string UtilityProviderId { get; set; } = default!;
 
         [JsonProperty(Required = Required.AllowNull)]
-        public string TrxId { get; set; } = default;
+        public string TrxId { get; set; } = default!;
     }
 
     [JsonObject(MemberSerialization.OptOut, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]

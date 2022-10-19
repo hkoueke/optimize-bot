@@ -9,7 +9,7 @@
         public const string Dollar = "💵";
         public const string Dollar_Fly = "💸";
         public const string Bank = "🏦";
-        public const string Arrow_Left = "➡";
+        public const string Arrow_Right = "➡";
         public const string CheckMark_Yes = "✅";
         public const string CheckMark_No = "❌";
         public const string Globe = "🌐";
